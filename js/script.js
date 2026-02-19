@@ -144,3 +144,87 @@ $(function () {
     });
 
 });
+
+
+var nctData = {
+    1: {
+        front: { src: 'images/cer-1-1.jpg', cap: 'Order for provissional Registration — Front Page' },
+        back: { src: 'images/cer-1-2.jpg', cap: 'Order for provissional Registration — Back Page' }
+    },
+    2: {
+        front: { src: 'images/cer2-1.jpg', cap: 'Order for provissional Approval — Front Page' },
+        back: { src: 'images/cer2-2.jpg', cap: 'Order for provissional Approval — Back Page' }
+    },
+    3: {
+        front: { src: 'images/cer-3.jpg', cap: 'REGISTRAR OF COMPANIES' }
+    }
+};
+
+var nctActiveCert = null, nctActivePage = null;
+
+function nctFlip(certNo, side) {
+    var $flipper = $('#nct' + certNo + '-flipper');
+    var $tabFront = $('#nct' + certNo + '-tab-front');
+    var $tabBack = $('#nct' + certNo + '-tab-back');
+    if (side === 'back') {
+        $flipper.addClass('flipped');
+        $tabBack.addClass('active'); $tabFront.removeClass('active');
+    } else {
+        $flipper.removeClass('flipped');
+        $tabFront.addClass('active'); $tabBack.removeClass('active');
+    }
+}
+
+function nctOpen(certNo, page) {
+    nctActiveCert = certNo;
+    nctActivePage = page || 'front';
+    if (certNo === 1 || certNo === 2) {
+        $('#nct-lb-pnav').removeClass('d-none').addClass('d-flex');
+    } else {
+        $('#nct-lb-pnav').removeClass('d-flex').addClass('d-none');
+    }
+    $('#nct-lb-front-btn').addClass('active').css({ background: '#FF6B00', 'border-color': '#FF6B00' });
+    $('#nct-lb-back-btn').removeClass('active').css({ background: 'transparent', 'border-color': '' });
+    nctLoad();
+    $('#nct-lightbox').addClass('open').hide().fadeIn(250);
+    $('body').css('overflow', 'hidden');
+}
+
+function nctSwitch(page) {
+    nctActivePage = page;
+    $('#nct-lb-front-btn,#nct-lb-back-btn').css({ background: 'transparent', 'border-color': '' }).removeClass('active');
+    $('#nct-lb-' + page + '-btn').addClass('active').css({ background: '#FF6B00', 'border-color': '#FF6B00' });
+    $('#nct-lb-body').animate({ opacity: 0 }, 150, function () {
+        nctLoad(); $('#nct-lb-body').animate({ opacity: 1 }, 200);
+    });
+}
+
+function nctLoad() {
+    var d = nctData[nctActiveCert][nctActivePage] || nctData[nctActiveCert]['front'];
+    if (d.src) {
+        $('#nct-lb-body').html('<img src="' + d.src + '" alt="' + d.cap + '" />');
+    } else {
+        $('#nct-lb-body').html(
+            '<div class="nct-lb-ph">' +
+            '<div style="font-size:56px;margin-bottom:12px;">📄</div>' +
+            '<p class="text-white fw-bold mb-1">' + d.cap + '</p>' +
+            '<p class="text-secondary small mb-0">Set <code style="color:#FFC107;">src</code> in nctData[' + nctActiveCert + '].' + nctActivePage + '</p>' +
+            '</div>'
+        );
+    }
+    $('#nct-lb-cap').html('<i class="fas fa-certificate me-1 text-warning"></i>' + d.cap);
+}
+
+function nctClose() {
+    $('#nct-lightbox').fadeOut(220, function () {
+        $(this).removeClass('open'); $('#nct-lb-body').html('');
+    });
+    $('body').css('overflow', '');
+}
+
+$('#nct-lightbox').on('click', function (e) {
+    if ($(e.target).is('#nct-lightbox')) nctClose();
+});
+$(document).on('keydown', function (e) {
+    if (e.key === 'Escape' && $('#nct-lightbox').hasClass('open')) nctClose();
+});

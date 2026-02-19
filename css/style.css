@@ -918,7 +918,7 @@ h6 {
     width: 46px;
     height: 46px;
     border-radius: 50%;
-    background: var(--saffron);
+    background: var(--primary);
     color: #fff;
     border: none;
     font-size: 18px;
@@ -957,7 +957,7 @@ h6 {
 }
 
 .lb-nav:hover {
-    background: var(--saffron);
+    background: var(--primary);
 }
 
 .lb-prev {
@@ -1293,4 +1293,181 @@ footer h5 {
     .visual-badge .vnum {
         font-size: 1.3rem;
     }
+}
+
+
+/* Certificates */
+/* Equal height row */
+#nct-section .row {
+    align-items: stretch;
+}
+
+#nct-section .card {
+    height: 100%;
+}
+
+/* Flip Card */
+.nct-flip-wrap {
+    perspective: 1000px;
+    width: 100%;
+}
+
+.nct-flipper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 141%;
+    transform-style: preserve-3d;
+    transition: transform .7s cubic-bezier(.4, 0, .2, 1);
+}
+
+.nct-flipper.flipped {
+    transform: rotateY(180deg);
+}
+
+.nct-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.nct-face-back {
+    transform: rotateY(180deg);
+}
+
+.nct-face img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+
+/* Single cert card image */
+.nct-single-img {
+    position: relative;
+    width: 100%;
+    padding-bottom: 141%;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.nct-single-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+.nct-single-img .nct-ph {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+}
+
+/* Hover overlay */
+.nct-hover-ov {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity .3s;
+    border-radius: 8px;
+}
+
+.nct-single-img:hover .nct-hover-ov {
+    opacity: 1;
+}
+
+/* Active tab */
+.nct-tab {
+    transition: all .25s;
+}
+
+.nct-tab.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+    color: #fff !important;
+    border-color: transparent !important;
+}
+
+/* Lightbox */
+#nct-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, .93);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+#nct-lightbox.open {
+    display: flex;
+}
+
+.nct-lb-box {
+    position: relative;
+    max-width: 660px;
+    width: 100%;
+}
+
+.nct-lb-box img {
+    width: 100%;
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: 12px;
+    display: block;
+}
+
+.nct-lb-ph {
+    min-height: 380px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+    background: rgba(255, 255, 255, .05);
+    border: 2px dashed rgba(255, 193, 7, .3);
+}
+
+.nct-lb-close {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #FF6B00;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .22s;
+    z-index: 10;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .5);
+}
+
+.nct-lb-close:hover {
+    transform: rotate(90deg) scale(1.1);
+}
+
+.nct-lb-page-btn.active {
+    background: #FF6B00 !important;
+    border-color: #FF6B00 !important;
 }
